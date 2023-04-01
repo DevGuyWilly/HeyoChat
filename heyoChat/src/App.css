@@ -1,0 +1,96 @@
+.backG{
+  position: fixed;
+  top: 30%;
+  left: 0;
+  bottom: 0;
+}
+.bitmoji{
+  position: fixed;
+  height: 85%;
+  z-index: 3;
+  bottom: 0;
+  left: -10px;
+}
+.LN{
+  z-index: 5;
+  position: fixed;
+  right: 180px;
+  width: 340px;
+  top: 60px;
+}
+.LNS{
+  z-index: 5;
+  position: fixed;
+  width: 600px;
+  bottom: -60px;
+  right: 30px;
+}
+/*  */
+.container{
+  width: 100%;
+  display: flex;
+  font-family: 'Montserrat';
+}
+.left{
+  width: 50%;
+  height: 400px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+.left h2 {
+  width: 400px;
+  height: 200px;
+  color: #7A98F9;
+  font-size: 36px;
+  font-weight: 200px;
+  z-index: 5;
+}
+.right{
+  width: 50%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.right h2 {
+  font-size: 34px;
+}
+.google{
+  border: 1px solid #7A98F9;
+  width: 400px;
+  height:80px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+}
+.googleImg{
+  width: 50px;
+  height: 50px;
+  position: relative;
+  left: 10px;
+  border-radius: 50px;
+}
+.google h3{
+  margin-left: 15px;
+  font-size: 18px;
+}
+.right .email{
+  margin-top: 20px;
+  padding: 10px;
+  color: #7A98F9;
+  font-size: 28px;
+  text-decoration: none;
+}
+
+.chat{
+  color: white;
+  margin: 20px;
+}
+
+
+
