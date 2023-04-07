@@ -3,6 +3,7 @@ const passport = require("passport");
 
 const CLIENT_URL = "http://localhost:5173/chatPage";
 
+// login router
 router.get("/login/sucess", (req, res) => {
   if (req.user) {
     res.status(200).json({
@@ -20,6 +21,11 @@ router.get("/login/failed", (req, res) => {
   });
 });
 
+router.get("/logout", (req, res) => {
+  req.logOut();
+  res.redirect();
+});
+
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
 
 router.get(
@@ -29,4 +35,5 @@ router.get(
     failureRedirect: "/login/failed",
   })
 );
+
 module.exports = router;

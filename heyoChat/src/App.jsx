@@ -6,12 +6,15 @@ import { ChatPage } from "./pages/ChatPage";
 import axios from "axios";
 
 function App() {
+  useEffect(() => {
+    axios.get();
+  }, []);
   return (
     <div className="App">
       <Router>
         <Routes>
           <Route path="/" element={<SignUp />} />
-          <Route path="/chatPage" element={user ? <ChatPage /> : <SignUp />} />
+          <Route path="/chatPage" element={<ChatPage />} />
         </Routes>
       </Router>
     </div>
