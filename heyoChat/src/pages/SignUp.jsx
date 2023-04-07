@@ -29,7 +29,7 @@ export const SignUp = () => {
             </a>
             <h3>Sign up with your Google account</h3>
           </button>
-          <GoogleSignin />
+          
           <a href="" className="email">
             Sign In with your Email Instead
           </a>
