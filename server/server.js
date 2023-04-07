@@ -4,36 +4,14 @@ const passport = require("passport");
 const cors = require("cors");
 const authRoute = require("./auth");
 const dotenv = require("dotenv");
-const dbConnect = require("./dbConnect");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
-dbConnect()
-
-
-app.use("/auth", authRoute);
-
-const CLIENT_URL = "/auth/google/callback";
-
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: CLIENT_URL,
-    },
-    function (accessToken, refreshToken, profile, done) {
-      done(null, profile);
-    }
-  )
-);
-
 app.use(
   cookieSession({ name: "session", keys: ["lama"], maxAge: 24 * 60 * 60 * 100 })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -45,6 +23,21 @@ app.use(
     credentials: true,
   })
 );
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+    }
+  )
+);
+
+app.use("/auth", authRoute);
 
 passport.serializeUser((user, done) => {
   done(null, user);

@@ -9,6 +9,7 @@ export const SignUp = () => {
     window.open("http://localhost:8000/auth/google", "_self");
   };
 
+    
   return (
     <>
       <div className="backG">
