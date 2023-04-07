@@ -3,6 +3,7 @@ import bitmoji from "../assets/sureboy@2x.png";
 import logoNameSk from "../assets/Group 477@2x.png";
 import logoName from "../assets/Group 478@2x.png";
 import google from "../assets/icons8-google-480.png";
+import {  GoogleSignin } from "./GoogleSignin";
 
 export const SignUp = () => {
   const googleF = () => {
@@ -28,6 +29,7 @@ export const SignUp = () => {
             </a>
             <h3>Sign up with your Google account</h3>
           </button>
+          <GoogleSignin />
           <a href="" className="email">
             Sign In with your Email Instead
           </a>
