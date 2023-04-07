@@ -4,10 +4,15 @@ const passport = require("passport");
 const cors = require("cors");
 const authRoute = require("./auth");
 const dotenv = require("dotenv");
+const dbConnect = require("./dbConnect");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 dotenv.config({ path: "./.env" });
 
 const app = express();
+
+dbConnect()
+
+
 app.use("/auth", authRoute);
 
 const CLIENT_URL = "/auth/google/callback";
