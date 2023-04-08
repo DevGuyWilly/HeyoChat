@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const passport = require("passport");
 const verifyUser = require("./middleware/auth");
+const bodyParser = require("body-parser");
 
 const CLIENT_URL = "http://localhost:5173/chatPage";
 
+router.use(bodyParser.urlencoded({ extended: true }));
 // login router
 router.get("/login/sucess", verifyUser, (req, res) => {
   // console.log(req.user);
@@ -40,8 +42,8 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: CLIENT_URL,
-    failureRedirect: "/login/failed",
+    successRedirect: "/auth/login/sucess",
+    failureRedirect: "/auth/login/failed",
   })
 );
 

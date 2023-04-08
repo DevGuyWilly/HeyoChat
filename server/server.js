@@ -8,9 +8,12 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user");
 const mongoose = require("mongoose");
 const dbConnect = require("./dbConnect");
+const bodyParser = require("body-parser");
 dotenv.config({ path: "./.env" });
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(
   cookieSession({
@@ -36,7 +39,8 @@ app.use("/auth", authRoute);
 
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
+    // origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -68,7 +72,7 @@ passport.use(
       User.findOne({ googleId: profile.id }).then((err, user) => {
         if (err) return done(err, null);
         if (user) return done(null, user);
-        user = new User({
+        const newUser = new User({
           googleId: profile.id,
           name: profile.displayName,
           firstName: profile._json.given_name,
@@ -76,9 +80,9 @@ passport.use(
           email: profile.emails[0].value,
           image: profile.photos[0].value,
         });
-        user.save().then((err) => {
+        newUser.save().then((err) => {
           if (err) return done(err, null);
-          done(null, user);
+          done(null, newUser);
         });
       });
     }
