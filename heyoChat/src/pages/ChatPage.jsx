@@ -1,6 +1,13 @@
 import axios from "axios";
 
 export const ChatPage = () => {
+  const logOut=()=>{
+    window.open("http://localhost:8000/auth/logout", "_self");
+  }
+
+
+
+  
   // logout = async () => {
   //   try {
   //     const response = await axios("/users/logout", { method: "POST" });
@@ -15,7 +22,7 @@ export const ChatPage = () => {
   return (
     <div>
       <h1 className="chat">This is ChatPage</h1>
-      <button>LogOut</button>
+      <button onClick={logOut} >LogOut</button>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export const SignUp = () => {
     window.open("http://localhost:8000/auth/google", "_self");
   };
 
-    
+  
   return (
     <>
       <div className="backG">
@@ -28,7 +28,7 @@ export const SignUp = () => {
             <a href="">
               <img src={google} className="googleImg"></img>
             </a>
-            <h3>Sign up with your Google account</h3>
+            <h3 >Sign up with your Google account</h3>
           </button>
           <a href="" className="email">
             Sign In with your Email Instead

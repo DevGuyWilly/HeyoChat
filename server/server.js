@@ -7,6 +7,7 @@ const dotenv = require("dotenv");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("./models/user");
 const mongoose = require("mongoose");
+const dbConnect = require("./dbConnect");
 dotenv.config({ path: "./.env" });
 
 const app = express();
@@ -19,11 +20,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // LOCALDB-CONNECTION
-const url = "mongodb://localhost:27017/heyChatDB";
-mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// const url = "mongodb://localhost:27017/heyChatDB";
+// mongoose.connect(url, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
+
+dbConnect()
 
 app.use(
   cors({

@@ -23,7 +23,7 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logOut();
-  res.redirect();
+  res.redirect("http://localhost:5173/");
 });
 router.get(
   "/google",

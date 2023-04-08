@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-ONLINE - CONNECTION;
+// ONLINE - CONNECTION;
 const dbConnect = async () => {
   try {
     mongoose.set("strictQuery", false);
