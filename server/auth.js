@@ -5,28 +5,33 @@ const verifyUser = require("./middleware/auth");
 const CLIENT_URL = "http://localhost:5173/chatPage";
 
 // login router
-router.get("/login/sucess",verifyUser, (req, res) => {
-  console.log(req.user)
+router.get("/login/sucess", verifyUser, (req, res) => {
+  // console.log(req.user);
   if (req.user) {
     res.status(200).json({
       success: true,
       mesaage: "Success",
       user: req.user,
+      cookies: req.cookies,
     });
   }
 });
 
 router.get("/login/failed", (req, res) => {
-  res.status(400).json({
+  res.status(401).json({
     success: false,
     mesaage: "Failure",
   });
 });
 
 router.get("/logout", (req, res) => {
+  // req.logout();
   req.logOut();
-  res.redirect("http://localhost:5173/");
+  req.session = null;
+  res.clearCookie("session");
+  res.redirect("http://localhost:5173");
 });
+
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile email openid"] })

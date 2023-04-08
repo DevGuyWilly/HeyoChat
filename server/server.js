@@ -13,32 +13,38 @@ dotenv.config({ path: "./.env" });
 const app = express();
 
 app.use(
-  cookieSession({ name: "session", keys: ["lama"], maxAge: 24 * 60 * 60 * 100 })
+  cookieSession({
+    name: "session",
+    keys: ["lama"],
+    maxAge: 600,
+    httpOnly: false,
+  })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// LOCALDB-CONNECTION
-// const url = "mongodb://localhost:27017/heyChatDB";
-// mongoose.connect(url, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+// LOCALDB - CONNECTION;
+const url = "mongodb://localhost:27017/heyChatDB";
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-dbConnect()
+// dbConnect()
+app.use("/auth", authRoute);
 
 app.use(
   cors({
-    origin: "http://localhost:8000",
-    methods: "GET, POST PUT, DELETE",
-    credentials: true,
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
-    done(null, user);
+    return done(null, user);
   });
 });
 
@@ -59,7 +65,6 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
-      console.log(profile);
       User.findOne({ googleId: profile.id }).then((err, user) => {
         if (err) return done(err, null);
         if (user) return done(null, user);
@@ -79,8 +84,6 @@ passport.use(
     }
   )
 );
-
-app.use("/auth", authRoute);
 
 app.listen(8000, () => {
   console.log("Listening on port 8000");
