@@ -1,10 +1,12 @@
 const router = require("express").Router();
 const passport = require("passport");
+const verifyUser = require("./middleware/auth");
 
 const CLIENT_URL = "http://localhost:5173/chatPage";
 
 // login router
-router.get("/login/sucess", (req, res) => {
+router.get("/login/sucess",verifyUser, (req, res) => {
+  console.log(req.user)
   if (req.user) {
     res.status(200).json({
       success: true,
