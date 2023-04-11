@@ -6,7 +6,7 @@ import google from "../assets/icons8-google-480.png";
 
 export const SignUp = () => {
   const googleF = () => {
-    window.open("http://localhost:8000/auth/google", "_self");
+    window.open("http://localhost:8000/auth/google/callback", "_self");
   };
 
   

@@ -7,7 +7,7 @@ const CLIENT_URL = "http://localhost:5173/chatPage";
 
 router.use(bodyParser.urlencoded({ extended: true }));
 // login router
-router.get("/login/sucess", verifyUser, (req, res) => {
+router.get("/login/sucess", (req, res) => {
   // console.log(req.user);
   if (req.user) {
     res.status(200).json({
@@ -42,7 +42,7 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    successRedirect: "/auth/login/sucess",
+    successRedirect: "http://localhost:5173/chatPage",
     failureRedirect: "/auth/login/failed",
   })
 );

@@ -10,9 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<SignUp />} />
-          <Route element={<PrivateRoute />}>
-            <Route path="/chatPage" element={<ChatPage />} />
-          </Route>
+          <Route path="/chatPage" element={<ChatPage />} />
         </Routes>
       </Router>
     </div>

@@ -19,7 +19,7 @@ app.use(
   cookieSession({
     name: "session",
     keys: ["lama"],
-    maxAge: 600,
+    maxAge: 6000000000,
     httpOnly: false,
   })
 );
@@ -28,13 +28,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // LOCALDB - CONNECTION;
-const url = "mongodb://localhost:27017/heyChatDB";
-mongoose.connect(url, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// const url = "mongodb://localhost:27017/heyChatDB";
+// mongoose.connect(url, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
-// dbConnect()
+dbConnect()
 app.use("/auth", authRoute);
 
 app.use(
@@ -48,13 +48,16 @@ app.use(
 
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
-    return done(null, user);
+   done(null, user.id);
   });
 });
 
-passport.deserializeUser((user, done) => {
-  process.nextTick(() => {
-    return done(null, user);
+passport.deserializeUser((id, done) => {
+  
+  process.nextTick(async() => {
+    const result = await User.findOne({googleId:id})
+    console.log(result)
+     done(null, result);
   });
 });
 //
@@ -66,6 +69,7 @@ passport.use(
       clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/google/callback",
       userProfileURL: `https://www.googleapis.com/oauth2/v3/userinfo`,
+      scope: ["profile", "email"],
     },
     function (accessToken, refreshToken, profile, done) {
       done(null, profile);
