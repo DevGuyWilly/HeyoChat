@@ -1,9 +1,8 @@
-body {
+body,.App {
   margin: 0px;
   padding: 0px;
   height: 100vh;
-  background: #262F51 0% 0% no-repeat padding-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  background: url("assets/Group550.png");
+ 
 }
+

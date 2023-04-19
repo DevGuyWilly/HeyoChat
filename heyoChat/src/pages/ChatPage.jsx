@@ -19,7 +19,7 @@ export const ChatPage = () => {
 
 
   return (
-    <div>
+    <div >
       <h1 className="chat">This is ChatPage</h1>
       <button onClick={logOut}>LogOut</button>
     </div>

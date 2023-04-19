@@ -1,8 +1,9 @@
-.backG{
+/* .backG{
   position: fixed;
-  top: 30%;
+  top: 25%;
   left: 0;
   bottom: 0;
+
 }
 .bitmoji{
   position: fixed;
@@ -25,7 +26,7 @@
   bottom: -60px;
   right: 30px;
 }
-/*  */
+
 .container{
   width: 100%;
   display: flex;
@@ -90,7 +91,16 @@
 .chat{
   color: white;
   margin: 20px;
+} */
+
+.main{
+  height: 400px;
+  width: 292px;
+  border-radius: 20px;
+  background-color:white;
+  background-image:url("assets/card41@2x.png");
+  background-size:contain;
+  background-position:center;
+  background-repeat: no-repeat;
 }
-
-
 
