@@ -10,7 +10,7 @@ import {
 import { ArrowForwardOutlined } from "@mui/icons-material";
 import FlexBetween from "../components/FlexBetween";
 import googleIcon from "../assets/googleIcon.png";
-import heyoIcon from "../assets/heyoIcon.svg"
+import heyoIcon from "../assets/heyoIcon.svg";
 
 export const SignUp = () => {
   const googleF = () => {
@@ -23,14 +23,13 @@ export const SignUp = () => {
         width: "100%",
         height: "100%",
         display: "flex",
-        flexDirection:"column",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <img src={heyoIcon} style={{ marginBottom:"40px" ,height:"60px"}} />
+      <img src={heyoIcon} style={{ marginBottom: "40px", height: "60px" }} />
       <div className="main">
-      
         <FlexBetween mt="70px">
           <Box display={"flex"} flexDirection={"column"} mb={"17px"}>
             <FormLabel sx={{ color: "#49C4BC", fontSize: "15px" }}>
@@ -90,7 +89,7 @@ export const SignUp = () => {
               "&:hover": { cursor: "pointer", backgroundColor: "#a7e8e4" },
             }}
           >
-            sign in
+            Sign in
           </Button>
 
           {/* signin with google button */}
@@ -102,6 +101,7 @@ export const SignUp = () => {
               borderRadius: "8px",
               "&:hover": { cursor: "pointer", backgroundColor: "#5F666D" },
             }}
+            onClick={googleF}
           >
             <Box
               sx={{
@@ -112,7 +112,7 @@ export const SignUp = () => {
             >
               <img style={{ height: "17px" }} src={googleIcon} />
               <Typography sx={{ color: "white", fontSize: "12px" }}>
-                continue with google instead
+                Continue with google instead
               </Typography>
               <ArrowForwardOutlined sx={{ color: "white", fontSize: "17px" }} />
             </Box>
@@ -134,8 +134,4 @@ export const SignUp = () => {
       </div>
     </div>
   );
-};
-
-const SignWithEmail = () => {
-  return <form method="" action=""></form>;
 };

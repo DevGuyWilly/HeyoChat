@@ -1,5 +1,5 @@
 const express = require("express");
-const cookieSession = require("cookie-session");
+const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
 const authRoute = require("./auth");
@@ -15,53 +15,84 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// FOR SESSIONS
 app.use(
-  cookieSession({
-    name: "session",
-    keys: ["lama"],
-    maxAge: 6000000000,
-    httpOnly: false,
+  session({
+    name: `session`,
+    secret: "lamda",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // This will only work if you have https enabled!
+      maxAge: 60000, // 1 min
+    },
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-// LOCALDB - CONNECTION;
-// const url = "mongodb://localhost:27017/heyChatDB";
-// mongoose.connect(url, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-dbConnect()
-app.use("/auth", authRoute);
-
+// TO PREVENT CROSS ORIGIN ERROR
+// BUT NOT NEEDED SINCE WE ARE MAKING USE OF ORIGIN
 app.use(
   cors({
+    // CLIENT SIDE ORIGIN
     origin: "http://localhost:5173",
-    // origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// LOCAL MONGO-DB DATABASE CONNECTION;
+mongoose.connect(process.env.LOCAL_DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
+// ONLINE MONGO-DB DATABSE CONNECTION
+// dbConnect();
+
+// GET USER ROUTE BEING CALLED FROM CLIENT SIDE,
+//
+app.get("/user/", (req, res) => {
+  const sess = req.session;
+  try {
+    if (!sess.user) {
+      res.status(404).json({
+        message: "User not logged in",
+      });
+    } else {
+      res.status(200).json({
+        message: "User Logged In",
+        user: req.session.user,
+      });
+    }
+  } catch (error) {
+    res.json({
+      message: "Error!",
+      error: error.message,
+    });
+  }
+});
+
+// ROOT ROUTES TO ALL ENDPOINT
+app.use("/auth", authRoute);
+
+// ATTACH USER'S ID AS COOKIE INTO SESSION
 passport.serializeUser((user, done) => {
   process.nextTick(() => {
-   done(null, user.id);
+    console.log(`serializing--->`, user.id);
+    done(null, user.id);
   });
 });
 
+//TAKES INFO ABOUT THE USER STORED IN THE SESSION TO GET COMPLETE
+// USER INFORMATION AS AN OBJECT WHEN A REQUEST IS MADE 😁
 passport.deserializeUser((id, done) => {
-  
-  process.nextTick(async() => {
-    const result = await User.findOne({googleId:id})
-    console.log(result)
-     done(null, result);
+  process.nextTick(async () => {
+    const result = await User.findOne({ googleId: id });
+    done(null, result);
   });
 });
-//
 
+// USING PASSPORT GOOGLE STRATEGY FOR AUTHENTICATION
 passport.use(
   new GoogleStrategy(
     {
@@ -93,6 +124,11 @@ passport.use(
   )
 );
 
+//
+app.use(passport.initialize());
+app.use(passport.session());
+
+// SERVER STARTED
 app.listen(8000, () => {
   console.log("Listening on port 8000");
 });
