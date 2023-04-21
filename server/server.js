@@ -41,13 +41,13 @@ app.use(
 );
 
 // LOCAL MONGO-DB DATABASE CONNECTION;
-mongoose.connect(process.env.LOCAL_DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// mongoose.connect(process.env.LOCAL_DB_URL, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
 // ONLINE MONGO-DB DATABSE CONNECTION
-// dbConnect();
+dbConnect();
 
 // GET USER ROUTE BEING CALLED FROM CLIENT SIDE,
 //

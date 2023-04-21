@@ -4,10 +4,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const PrivateRoute = () => {
-  const [user, setUser] = useState(false);
+  const [user, setUser] = useState("");
+ 
 
-  const getUser = () => {
-    axios
+  const getUser = async () => {
+    const response = await axios
       .get("/user/", {
         method: "GET",
         credentials: "include",
@@ -16,31 +17,24 @@ const PrivateRoute = () => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-      })
-      .then((response) => {
-        return response.data;
-      })
-      .then((resObj) => {
-        if (resObj) {
-          console.log("User Details--->", resObj.user);
-          setUser(resObj.user);
-          console.log({ user });
-        } else {
-          throw new Error("Auth Failed");
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
+      const data = await response.data
+    
+      setUser("hello")
+
+      
   };
+  
+
+  console.log(user)
 
   useEffect(() => {
     getUser();
   }, []);
 
-  console.log(user);
+  
 
-  return user ? <Outlet /> : <Navigate to="/" />;
+  // return user ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
