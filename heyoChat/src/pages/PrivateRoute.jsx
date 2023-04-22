@@ -29,7 +29,7 @@ const PrivateRoute = () => {
   console.log(user)
 
   useEffect(() => {
-    getUser();
+    // getUser();
   }, []);
 
   

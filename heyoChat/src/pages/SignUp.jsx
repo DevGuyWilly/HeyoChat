@@ -12,15 +12,32 @@ import FlexBetween from "../components/FlexBetween";
 import googleIcon from "../assets/googleIcon.png";
 import heyoIcon from "../assets/heyoIcon.svg";
 import { useSelector ,useDispatch } from "react-redux";
-
+import axios from "axios"
+import { login } from "../state";
+import { useNavigate } from "react-router-dom";
 
 export const SignUp = () => {
 
-  
-  const googleF = async() => {
-    window.open("http://localhost:8000/auth/google/callback", "_self");
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user);
+  console.log(users);
 
-    
+
+  const googleF = async() => {
+     window.open("http://localhost:8000/auth/google/callback", "_self")
+
+    const response = await axios.get("/user/", {
+      method: "GET",
+      credentials: "include",
+      withCredentials: true,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.data;
+    dispatch(login({ user: data }));
+  
 
   };
   
