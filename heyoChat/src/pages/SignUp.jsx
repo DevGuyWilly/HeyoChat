@@ -15,28 +15,36 @@ import { useSelector ,useDispatch } from "react-redux";
 import axios from "axios"
 import { login } from "../state";
 import { useNavigate } from "react-router-dom";
+import {useGoogleLogin} from "@react-oauth/google"
 
 export const SignUp = () => {
 
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user);
   console.log(users);
+  const navigate = useNavigate()
+  // console.log(import.meta.env.VITE_CLIENT_ID);
 
 
-  const googleF = async() => {
-     window.open("http://localhost:8000/auth/google/callback", "_self")
+  const loginG = useGoogleLogin({
 
-    const response = await axios.get("/user/", {
-      method: "GET",
-      credentials: "include",
-      withCredentials: true,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.data;
-    dispatch(login({ user: data }));
+
+    onSuccess: async (tokenResponse) => {
+      const res = await axios.get(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
+      dispatch(login({user:res.data}))
+      navigate("/chatPage");
+    },
+  });
+  const googleF = () => {
+    //  window.open("http://localhost:8000/auth/google/callback", "_self")
+    
   
 
   };
@@ -127,7 +135,7 @@ export const SignUp = () => {
                 borderRadius: "8px",
                 "&:hover": { cursor: "pointer", backgroundColor: "#5F666D" },
               }}
-              onClick={googleF}
+              onClick={loginG}
             >
               <Box
                 sx={{

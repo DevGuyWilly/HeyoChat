@@ -14,7 +14,17 @@ export const ChatPage = () => {
   };
 
   const getUser = async () => {
-      
+      const response = await axios.get("/user/", {
+        method: "GET",
+        credentials: "include",
+        withCredentials: true,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.data;
+      dispatch(login({ user: data }));
     };
    
  
