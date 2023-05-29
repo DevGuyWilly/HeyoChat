@@ -1,108 +1,58 @@
-var User = require("../models/User.js");
-var passport = require("passport");
-var GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-var LocalStrategy = require("passport-local").Strategy;
-var bcrypt = require("bcryptjs");
-var flash = require("connect-flash");
-
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    if (err || !user) return done(err, null);
-    done(null, user);
+const googlePassportLogin= ()=>{
+  
+passport.serializeUser((user, done) => {
+  process.nextTick(() => {
+    console.log(`serializing--->`, user.id);
+    done(null, user.id);
   });
 });
 
-module.exports = function (app) {
-  return {
-    init: function () {
-      passport.use(
-        new LocalStrategy(
-          {
-            usernameField: "email",
-            passwordField: "password",
-          },
-          function (email, password, done) {
-            User.findOne({ email: email })
-              .then(function (user) {
-                if (!user) {
-                  return done(null, false, {
-                    message: "That user is not registered",
-                  });
-                }
-                bcrypt.compare(
-                  password,
-                  user.password,
-                  function (err, isMatch) {
-                    if (err) throw err;
-                    if (isMatch) {
-                      return done(null, user);
-                    } else {
-                      return done(null, false, {
-                        message: "Password incorrect",
-                      });
-                    }
-                  }
-                );
-              })
-              .catch(function (err) {
-                console.log(err);
-                throw err;
-              });
-          }
-        )
-      );
-      passport.use(
-        new GoogleStrategy(
-          {
-            clientID: process.env.clientID,
-            clientSecret: process.env.clientSecret,
-            callbackURL: "http://localhost:8080/auth/google/callback",
-          },
-          function (_accessToken, _refereshToken, profile, done) {
-            User.findOne({ authId: profile.id }, function (err, user) {
-              if (err) return done(err, null);
-              if (user) return done(null, user);
-              user = new User({
-                authId: profile.id,
-                name: profile.displayName,
-                email: profile.emails[0].value,
-                img: profile.photos[0].value,
-                created: Date.now(),
-                role: "customer",
-              });
-              user.save(function (err) {
-                if (err) return done(err, null);
-                done(null, user);
-              });
-            });
-          }
-        )
-      );
-      app.use(passport.initialize());
-      app.use(passport.session());
+//TAKES INFO ABOUT THE USER STORED IN THE SESSION TO GET COMPLETE
+// USER INFORMATION AS AN OBJECT WHEN A REQUEST IS MADE 😁
+passport.deserializeUser((id, done) => {
+  process.nextTick(async () => {
+    const result = await User.findOne({ googleId: id });
+    done(null, result);
+  });
+});
+
+// USING PASSPORT GOOGLE STRATEGY FOR AUTHENTICATION
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+      userProfileURL: `https://www.googleapis.com/oauth2/v3/userinfo`,
+      scope: ["profile", "email"],
     },
-    registerRoute: function () {
-      app.post("/login", function (req, res, next) {
-        passport.authenticate("local", {
-          successRedirect: "/",
-          failureRedirect: "/unauthorized",
-          failureFlash: true,
-        })(req, res, next);
+    function (accessToken, refreshToken, profile, done) {
+      done(null, profile);
+      User.findOne({ googleId: profile.id }).then((err, user) => {
+        if (err) return done(err, null);
+        if (user) return done(null, user);
+        const newUser = new User({
+          googleId: profile.id,
+          name: profile.displayName,
+          firstName: profile._json.given_name,
+          lastName: profile._json.family_name,
+          email: profile.emails[0].value,
+          image: profile.photos[0].value,
+        });
+        newUser.save().then((err) => {
+          if (err) return done(err, null);
+          done(null, newUser);
+        });
       });
-      app.get(
-        "/auth/google",
-        passport.authenticate("google", { scope: ["profile", "email"] })
-      );
-      app.get(
-        "/auth/google/callback",
-        passport.authenticate("google", { failureRedirect: "/unauthorized" }),
-        function (req, res) {
-          res.redirect("/");
-        }
-      );
-    },
-  };
-};
+    }
+  )
+);
+
+//
+app.use(passport.initialize());
+app.use(passport.session());
+
+} 
+module.exports= googlePassportLogin
+
+

@@ -26,24 +26,27 @@ export const SignUp = () => {
   // console.log(import.meta.env.VITE_CLIENT_ID);
 
 
+const loginWithGoogle = async (googletoken) => {
+  const res = await axios.post("http://localhost:8000/auth/login", {
+    headers: {},
+    googleAccessToken: googletoken,
+  });
+  console.log(res);
+  dispatch(login({ user: res.data }));
+  navigate("/chatPage");
+  
+};
+
+
   const loginG = useGoogleLogin({
-
-
     onSuccess: async (tokenResponse) => {
-      const res = await axios.get(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        {
-          headers: {
-            Authorization: `Bearer ${tokenResponse.access_token}`,
-          },
-        }
-      );
-      dispatch(login({user:res.data}))
-      navigate("/chatPage");
+      loginWithGoogle(tokenResponse.access_token);
+      
     },
   });
-  const googleF = () => {
-    //  window.open("http://localhost:8000/auth/google/callback", "_self")
+  const googleF = async() => {
+    const res = await axios.post("http://localhost:8000/auth",{name:"erons"});
+    console.log(res)
     
   
 
@@ -112,6 +115,7 @@ export const SignUp = () => {
             </Typography>
             {/* regular sign in button  */}
             <Button
+              onClick={googleF}
               sx={{
                 textAlign: "center",
                 backgroundColor: "#49C4BC",
