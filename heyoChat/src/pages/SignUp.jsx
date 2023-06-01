@@ -27,7 +27,7 @@ export const SignUp = () => {
 
 
 const loginWithGoogle = async (googletoken) => {
-  const res = await axios.post("http://localhost:8000/auth/login", {
+  const res = await axios.post("http://localhost:8000/auth/register", {
     headers: {},
     googleAccessToken: googletoken,
   });

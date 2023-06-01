@@ -52,7 +52,6 @@ module.exports = {
         console.log("finished");
         return res.status(200).json({ token, newUser });
       } else {
-        console.log("fdkjf");
         const { email, password, firstName, lastName } = req.body;
         const passwordHash = await bcrypt.hash(password, saltRounds);
 
