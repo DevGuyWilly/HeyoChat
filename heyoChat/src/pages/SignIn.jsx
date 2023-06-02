@@ -13,7 +13,7 @@ import { useState } from "react";
 import TextFieldInputComp from "../components/TextFieldInputComp";
 import TextFieldPasswordComponent from "../components/TextFieldPasswordComponent";
 
-export const SignUp = () => {
+export const SignIn = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user);
   console.log(users);
@@ -47,7 +47,7 @@ export const SignUp = () => {
       }}
     >
       <img src={heyoIcon} style={{ marginBottom: "40px", height: "60px" }} />
-      <div className="main" style={{ height: "600px" }}>
+      <div className="main" style={{ height: "450px" }}>
         <img
           src={overlay}
           alt=""
@@ -65,35 +65,48 @@ export const SignUp = () => {
           style={{
             padding: "30px 0px",
             zIndex: "99",
-            marginTop: "40px",
+            marginTop: "35px",
           }}
         >
           <FlexBetween sx={{ padding: "10px" }}>
             <TextFieldInputComp label={"Email"} />
-            <TextFieldInputComp label={"Username"} />
-            <TextFieldInputComp label={"Phone Number"} />
             <TextFieldPasswordComponent label={"Password"} />
-            <TextFieldPasswordComponent label={"Confirm Password"} />
-            <Box flexDirection={"column"} sx={{ display: "flex" }}>
+            <Box
+              flexDirection={"column"}
+              sx={{ display: "flex", textAlign: "center" }}
+            >
+              <Typography sx={{ color: "#49C4BC", fontSize: "13px" }}>
+                Need help signing in?{" "}
+                <a
+                  href="#"
+                  style={{
+                    textDecoration: "none",
+                    color: "#49C4BC",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Click here
+                </a>
+              </Typography>
               <Button
                 onClick={loginWithGoogle}
                 sx={{
                   textAlign: "center",
                   backgroundColor: "#49C4BC",
                   width: "240px",
+                  margin: "10px 0",
                   color: "white",
                   borderRadius: "0.29rem",
                   "&:hover": { cursor: "pointer", backgroundColor: "#a7e8e4" },
                 }}
               >
-                Sign Up
+                Sign in
               </Button>
               <Box
                 sx={{
                   backgroundColor: "#393D41",
                   width: "240px",
                   borderRadius: "8px",
-                  margin: "10px 0px",
                   "&:hover": { cursor: "pointer", backgroundColor: "#5F666D" },
                 }}
                 onClick={loginG}
@@ -115,23 +128,18 @@ export const SignUp = () => {
                 </Box>
               </Box>
               <Typography
-                sx={{
-                  color: "#49C4BC",
-                  fontSize: "13px",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
+                sx={{ color: "#49C4BC", fontSize: "13px", margin: "10px 0" }}
               >
-                Already have an Account?
+                New to heyo?
                 <a
-                  href="/"
+                  href="/signUp"
                   style={{
                     textDecoration: "none",
                     color: "#49C4BC",
                     fontWeight: "bold",
                   }}
                 >
-                  Login
+                  Sign Up
                 </a>
               </Typography>
             </Box>
