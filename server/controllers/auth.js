@@ -14,7 +14,6 @@ module.exports = {
     try {
       if (req.body.googleAccessToken) {
         //google 0Auth sign up
-
         const response = await axios.get(
           "https://www.googleapis.com/oauth2/v3/userinfo",
           {
@@ -52,6 +51,7 @@ module.exports = {
         console.log("finished");
         return res.status(200).json({ token, newUser });
       } else {
+        console.log("fdkjf");
         const { email, password, firstName, lastName } = req.body;
         const passwordHash = await bcrypt.hash(password, saltRounds);
 
@@ -117,7 +117,7 @@ module.exports = {
       const refreshToken = Jwt;
       jwt.verify(refreshToken, refreshTokenSecret, async (err, decoded) => {
         try {
-          console.log(decoded)
+          console.log(decoded);
           if (err) return res.status(403).json({ message: "Forbidden" });
           const foundUser = await User.findOne({ _id: decoded.userId });
           console.log(foundUser);
@@ -136,6 +136,13 @@ module.exports = {
           res.status(500).json({ err: err.message });
         }
       });
+    } catch (err) {
+      res.status(500).json({ err: err.message });
+    }
+  },
+  logOut: async (req, res) => {
+    try {
+      res.redirect("http://localhost:5173");
     } catch (err) {
       res.status(500).json({ err: err.message });
     }

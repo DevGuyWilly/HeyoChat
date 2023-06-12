@@ -1,32 +1,33 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import "./App.css";
 import { SignIn } from "./pages/SignIn";
+import { SignUp } from "./pages/SignUp";
 import { ChatPage } from "./pages/ChatPage";
-import PrivateRoute from "./pages/PrivateRoute";
 import { useSelector } from "react-redux";
 import { NextPage } from "./pages/nextpage";
-import { SignUp } from "./pages/SignUp";
 
 
 function App() {
-
-
-    const isAuth = Boolean(useSelector((state) => state.user?.user));
-    console.log(isAuth)
-    
-    
+  // const isAuth = Boolean(useSelector((state) => state.user?.user));
+  const isAuth = true;
   return (
     <div className="App">
-      
-        <Router>
-          <Routes>
-            <Route path="/" element={<SignIn />} />
-            <Route path="/register" element={<SignUp />} />
-            <Route path="/chatPage" element={isAuth ? <ChatPage /> :<Navigate to ="/" /> } />
-            <Route path="/nextpage" element={<NextPage />} />
-          </Routes>
-        </Router>
-      
+      <Router>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route
+            path="/chatPage"
+            element={isAuth ? <ChatPage /> : <Navigate to="/" />}
+          />
+          <Route path="/nextpage" element={<NextPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

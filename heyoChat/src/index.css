@@ -2,7 +2,7 @@ body,.App {
   margin: 0px;
   padding: 0px;
   height: 100vh;
-  background: url("assets/Group550.png");
- 
+  /* background: url("assets/Group550.png"); */
+  background-color: #F1F1F1;
 }
 
