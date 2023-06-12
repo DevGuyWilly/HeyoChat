@@ -23,11 +23,19 @@ function TextFieldPasswordComponent(props) {
         size="small"
         label={props.label}
         variant="outlined"
+        onBlur={props.handleBlur}
+        onChange={props.handleChange}
+        value={props.value}
+        name={props.name}
+        error={props.error}
+        helperText={props.helperText}
         required
         sx={{
           width: "240px",
           borderRadius: "0.29rem",
-          color: "#49C4BC",
+          "& .MuiOutlinedInput-root": {
+            color: "#49C4BC",
+          },
           "& .MuiOutlinedInput-root.Mui-focused": {
             "& > fieldset": {
               borderColor: "#49C4BC",
