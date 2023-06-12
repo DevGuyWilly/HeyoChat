@@ -3,6 +3,7 @@ import { ArrowForwardOutlined } from "@mui/icons-material";
 import FlexBetween from "../components/FlexBetween";
 import googleIcon from "../assets/googleIcon.png";
 import heyoIcon from "../assets/heyoIcon.svg";
+import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -15,16 +16,16 @@ import TextFieldPasswordComponent from "../components/TextFieldPasswordComponent
 
 export const SignIn = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.user);
-  console.log(users);
   const navigate = useNavigate();
+  const users = useSelector((state) => state.user);
+  // console.log(users);
 
   const loginWithGoogle = async (googletoken) => {
     const res = await axios.post("http://localhost:8000/auth/register", {
       headers: {},
       googleAccessToken: googletoken,
     });
-    console.log({ res });
+    // console.log({ res });
     dispatch(login({ user: res.data }));
     navigate("/chatPage");
   };
@@ -44,6 +45,7 @@ export const SignIn = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `url(${background})`,
       }}
     >
       <img src={heyoIcon} style={{ marginBottom: "40px", height: "60px" }} />
@@ -55,7 +57,7 @@ export const SignIn = () => {
             position: "absolute",
             width: "100%",
             height: "100%",
-            objectFit: "cover",
+            // objectFit: "cover",
             top: "0",
             bottom: "0",
             borderRadius: "20px",

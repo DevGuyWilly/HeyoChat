@@ -3,6 +3,7 @@ import { ArrowForwardOutlined } from "@mui/icons-material";
 import FlexBetween from "../components/FlexBetween";
 import googleIcon from "../assets/googleIcon.png";
 import heyoIcon from "../assets/heyoIcon.svg";
+import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -16,7 +17,7 @@ import TextFieldPasswordComponent from "../components/TextFieldPasswordComponent
 export const SignUp = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user);
-  console.log(users);
+  // console.log(users);
   const navigate = useNavigate();
 
   const loginWithGoogle = async (googletoken) => {
@@ -44,6 +45,7 @@ export const SignUp = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        backgroundImage: `url(${background})`,
       }}
     >
       <img src={heyoIcon} style={{ marginBottom: "40px", height: "60px" }} />

@@ -12,7 +12,8 @@ import { useSelector } from "react-redux";
 import { NextPage } from "./pages/nextpage";
 
 function App() {
-  const isAuth = Boolean(useSelector((state) => state.user?.user));
+  // const isAuth = Boolean(useSelector((state) => state.user?.user));
+  const isAuth = true;
   return (
     <div className="App">
       <Router>
