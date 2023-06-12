@@ -17,8 +17,7 @@ import { login } from "../state";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 
-
-export const SignUp =()=>{
+export const SignIn = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user);
   console.log(users);
@@ -40,7 +39,9 @@ export const SignUp =()=>{
       loginWithGoogle(tokenResponse.access_token);
     },
   });
-  const Login = async () => {};
+  const Login = async () => {
+    
+  };
 
   return (
     <div
@@ -57,8 +58,8 @@ export const SignUp =()=>{
       <div className="main">
         <form>
           <FlexBetween mt="70px">
-            <Box display={"flex"} flexDirection={"column"} mb={"7px"}>
-              <FormLabel sx={{ color: "#49C4BC", fontSize: "14.5px" }}>
+            <Box display={"flex"} flexDirection={"column"} mb={"17px"}>
+              <FormLabel sx={{ color: "#49C4BC", fontSize: "15px" }}>
                 Email
               </FormLabel>
               <InputBase
@@ -72,38 +73,8 @@ export const SignUp =()=>{
                 }}
               />
             </Box>
-            <Box display={"flex"} flexDirection={"column"} mb={"17px"}>
-              <FormLabel sx={{ color: "#49C4BC", fontSize: "14.5px" }}>
-                Username
-              </FormLabel>
-              <InputBase
-                sx={{
-                  padding: "10px",
-                  border: "#49C4BC 1px  solid ",
-                  width: "270px",
-                  height: "30px",
-                  borderRadius: "0.29rem",
-                  color: "#49C4BC",
-                }}
-              />
-            </Box>
-            <Box display={"flex"} flexDirection={"column"} mb={"7px"}>
-              <FormLabel sx={{ color: "#49C4BC", fontSize: "14.5px" }}>
-                Phone Number
-              </FormLabel>
-              <InputBase
-                sx={{
-                  padding: "10px",
-                  border: "#49C4BC 1px  solid ",
-                  width: "270px",
-                  height: "30px",
-                  borderRadius: "0.29rem",
-                  color: "#49C4BC",
-                }}
-              />
-            </Box>
-            <Box display={"flex"} flexDirection={"column"} mb={"7px"}>
-              <FormLabel sx={{ color: "#49C4BC", fontSize: "14.5px" }}>
+            <Box display={"flex"} flexDirection={"column"} mb={"10px"}>
+              <FormLabel sx={{ color: "#49C4BC", fontSize: "15px" }}>
                 Password
               </FormLabel>
               <InputBase
@@ -118,22 +89,20 @@ export const SignUp =()=>{
                 }}
               />
             </Box>
-            <Box display={"flex"} flexDirection={"column"} mb={"10px"}>
-              <FormLabel sx={{ color: "#49C4BC", fontSize: "14.5px" }}>
-                Confirm Password
-              </FormLabel>
-              <InputBase
-                type="password"
-                sx={{
-                  padding: "10px",
-                  border: "#49C4BC 1px  solid ",
-                  width: "270px",
-                  height: "30px",
-                  borderRadius: "0.29rem",
+
+            <Typography sx={{ color: "#49C4BC", fontSize: "13px",mt:"10px" }}>
+              Need help signing in?{" "}
+              <a
+                href="#"
+                style={{
+                  textDecoration: "none",
                   color: "#49C4BC",
+                  fontWeight: "bold",
                 }}
-              />
-            </Box>
+              >
+                Click here
+              </a>
+            </Typography>
             {/* regular sign in button  */}
             <Button
               onClick={Login}
@@ -144,7 +113,7 @@ export const SignUp =()=>{
                 height: "28px",
                 color: "white",
                 borderRadius: "0.29rem",
-                mt: "14.5px",
+                mt: "15px",
                 "&:hover": { cursor: "pointer", backgroundColor: "#a7e8e4" },
               }}
             >
@@ -152,11 +121,11 @@ export const SignUp =()=>{
             </Button>
 
             {/* signin with google button */}
-            {/* <Box
+            <Box
               sx={{
                 backgroundColor: "#393D41",
-                width: "240px",
-                marginTop: "25px",
+                width: "270px",
+                marginTop: "30px",
                 borderRadius: "8px",
                 "&:hover": { cursor: "pointer", backgroundColor: "#5F666D" },
               }}
@@ -177,18 +146,18 @@ export const SignUp =()=>{
                   sx={{ color: "white", fontSize: "17px" }}
                 />
               </Box>
-            </Box> */}
-            <Typography sx={{ color: "#49C4BC", fontSize: "13px", mt: "14.5px", mb:"37px"}}>
-              Have an account?{" "}
+            </Box>
+            <Typography sx={{ color: "#49C4BC", fontSize: "13px", mt: "25px",mb:"80px" }}>
+              New to heyo?{" "}
               <a
-                href="/"
+                href="/register"
                 style={{
                   textDecoration: "none",
                   color: "#49C4BC",
                   fontWeight: "bold",
                 }}
               >
-                Sign In
+                Sign Up
               </a>
             </Typography>
           </FlexBetween>
@@ -196,4 +165,4 @@ export const SignUp =()=>{
       </div>
     </div>
   );
-}
+};

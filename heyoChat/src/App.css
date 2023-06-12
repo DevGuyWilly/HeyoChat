@@ -94,12 +94,12 @@
 } */
 
 .main{
-  height: 400px;
-  width: 292px;
+  
+  width: 330px;
   border-radius: 20px;
   background-color:white;
   background-image:url("assets/card41@2x.png");
-  background-size:contain;
+  background-size:cover;
   background-position:center;
   background-repeat: no-repeat;
 }
