@@ -6,7 +6,7 @@ import heyoIcon from "../assets/heyoIcon.svg";
 import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import { axios } from "../axios/axiosFetch";
 import { login } from "../state";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -30,29 +30,24 @@ const registerSchema = yup.object().shape({
     .required("Input a value")
     .min(4, "Password is too short")
     .max(9, "Use a password you can remember werey")
-    .oneOf([yup.ref("password","password does not match")]),
+    .oneOf([yup.ref("password", "password does not match")]),
 });
 
 const initialValuesSignup = {
   email: "",
   username: "",
-  phonenumber:0,
+  phonenumber: 0,
   password: "",
   confirmPassword: "",
-};
-
-const handleFormSubmit = async (values, onSubmitProps) => {
-  console.log(values)
 };
 
 export const SignUp = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.user);
-  const [email, setEmail] = useState();
-  // console.log(users);
+
   const navigate = useNavigate();
   const loginWithGoogle = async (googletoken) => {
-    const res = await axios.post("http://localhost:8000/auth/register", {
+    const res = await axios.post("/auth/register", {
       headers: {},
       googleAccessToken: googletoken,
     });
@@ -68,7 +63,19 @@ export const SignUp = () => {
     },
   });
 
-  const Login = async () => {};
+  const register = async (values, onSubmitProps) => {
+    console.log(values)
+    const formData = new FormData();
+    for (let value in values) {
+      formData.append(value, values[value]);
+    }
+    
+    console.log(formData)
+  };
+
+  const handleFormSubmit = async (values, onSubmitProps) => {
+    register(values,onSubmitProps)
+  };
 
   return (
     <div
@@ -124,7 +131,8 @@ export const SignUp = () => {
               <FlexBetween sx={{ padding: "10px" }}>
                 <TextFieldInputComp
                   label={"Email"}
-                  name="email" type="text"
+                  name="email"
+                  type="text"
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   value={values.email}
@@ -133,7 +141,8 @@ export const SignUp = () => {
                 />
                 <TextFieldInputComp
                   label={"Username"}
-                  name="username" type="text"
+                  name="username"
+                  type="text"
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   value={values.username}
@@ -142,11 +151,14 @@ export const SignUp = () => {
                 />
                 <TextFieldInputComp
                   label={"Phone Number"}
-                  name="phonenumber" type="number"
+                  name="phonenumber"
+                  type="number"
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   value={values.phonenumber}
-                  error={Boolean(touched.phonenumber) && Boolean(errors.phonenumber)}
+                  error={
+                    Boolean(touched.phonenumber) && Boolean(errors.phonenumber)
+                  }
                   helperText={touched.phonenumber && errors.phonenumber}
                 />
                 <TextFieldPasswordComponent
@@ -164,7 +176,10 @@ export const SignUp = () => {
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   value={values.confirmPassword}
-                  error={Boolean(touched.confirmPassword) && Boolean(errors.confirmPassword)}
+                  error={
+                    Boolean(touched.confirmPassword) &&
+                    Boolean(errors.confirmPassword)
+                  }
                   helperText={touched.confirmPassword && errors.confirmPassword}
                 />
                 <Box flexDirection={"column"} sx={{ display: "flex" }}>

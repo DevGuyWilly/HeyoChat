@@ -1,3 +1,5 @@
+
+
 const verifyUser = async (req, res, next) => {
   try {
     const user = await req.user;

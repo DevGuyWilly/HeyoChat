@@ -52,7 +52,8 @@ module.exports = {
         return res.status(200).json({ token, newUser });
       } else {
         console.log("fdkjf");
-        const { email, password, firstName, lastName } = req.body;
+        const { email, password,phonenumber,username,confrimPassword} = req.body;
+        if(password!== confrimPassword)return res.status(400).json({ err: "password and confirm password should match" });
         const passwordHash = await bcrypt.hash(password, saltRounds);
 
         const existingUser = await User.findOne({ email: email });
@@ -60,8 +61,8 @@ module.exports = {
           const newUser = await User.create({
             email,
             password: passwordHash,
-            firstName,
-            lastName,
+            phonenumber,
+            username,
           });
 
           return res.status(200).json({ message: "Registration Successful" });

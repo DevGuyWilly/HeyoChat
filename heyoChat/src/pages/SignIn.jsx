@@ -8,7 +8,7 @@ import heyoIcon from "../assets/heyoIcon.svg";
 import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
+import {axios} from '../axios/axiosFetch'
 import { login } from "../state";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -20,15 +20,20 @@ export const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const users = useSelector((state) => state.user);
+  const [email,setEmail]= useState("")
+  const [password,setPassword]= useState("")
   // console.log(users);
 
+  const handleChange=(e,setState)=>{
+    setState(e.target.value)
+  }
+
   const loginWithGoogle = async (googletoken) => {
-    const res = await axios.post("http://localhost:8000/auth/register", {
+    const res = await axios.post("/auth/register", {
       headers: {},
       googleAccessToken: googletoken,
     });
-    console.log(res);
-    // console.log({ res });
+   
     dispatch(login({ user: res.data }));
     navigate("/chatPage");
   };
@@ -39,9 +44,9 @@ export const SignIn = () => {
     },
   });
   const Login = async () => {
-    
+    const res= await axios.post("/auth/login",{email,password})
   };
-
+  
   return (
     <div
       style={{
@@ -77,8 +82,14 @@ export const SignIn = () => {
           }}
         >
           <FlexBetween sx={{ padding: "10px" }}>
-            <TextFieldInputComp label={"Email"} />
-            <TextFieldPasswordComponent label={"Password"} />
+            <TextFieldInputComp
+              label={"Email"}
+              handleChange={(e) => handleChange(e, setEmail)}
+            />
+            <TextFieldPasswordComponent
+              label={"Password"}
+              handleChange={(e) => handleChange(e, setPassword)}
+            />
             <Box
               flexDirection={"column"}
               sx={{ display: "flex", textAlign: "center" }}
@@ -97,7 +108,7 @@ export const SignIn = () => {
                 </a>
               </Typography>
               <Button
-                onClick={loginWithGoogle}
+                onClick={Login}
                 sx={{
                   textAlign: "center",
                   backgroundColor: "#49C4BC",
