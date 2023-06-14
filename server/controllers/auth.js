@@ -1,16 +1,17 @@
-const User = require("../models/user");
-const axios = require("axios");
-const dotenv = require("dotenv");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+
+import User from "../models/user.js";
+import axios from "axios"
+import dotenv from "dotenv"
+import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 dotenv.config();
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-module.exports = {
-  signUp: async (req, res) => {
+
+ export const signUp = async (req, res) => {
     try {
       if (req.body.googleAccessToken) {
         //google 0Auth sign up
@@ -72,9 +73,9 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
-  },
+  }
 
-  signIn: async (req, res) => {
+  export const signIn = async (req, res) => {
     try {
       const { email, password } = req.body;
       const user = await User.findOne({ email });
@@ -108,8 +109,8 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
-  },
-  refresh: async (req, res) => {
+  }
+  export const refresh= async (req, res) => {
     try {
       const { Jwt } = req.cookies;
 
@@ -140,17 +141,17 @@ module.exports = {
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
-  },
-  logOut: async (req, res) => {
+  }
+  export const logOut =async (req, res) => {
     try {
       res.redirect("http://localhost:5173");
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
-  },
-  testing: (req, res) => {
+  }
+  export const testing= (req, res) => {
     const { name } = req.body;
     console.log("fdkjf");
     res.status(200).json({ message: `its working ${name}` });
-  },
-};
+  }
+

@@ -1,12 +1,23 @@
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+dotenv.config()
 
-
-const verifyUser = async (req, res, next) => {
+export const verifyUser = async (req, res, next) => {
+  const accessSecret = process.env.ACCESS_TOKEN_SECRET;
+  const authHeader = req.headers.authorization || req.headers.Authorization;
   try {
-    const user = await req.user;
-    if (!user) {
-      return res.status(403).send("Access Denied");
+    
+    if (!authHeader?.startsWith('Bearer ')) {
+      return res.status(403).json({ message: "Unauthorized" });
     }
-    next();
+    const token = authHeader.split(' ')[1]
+    jwt.verify(token, accessSecret, (err, decoded) => {
+      if (err) return res.status(403).json({ message: "Unauthorized" });
+      req.user = decoded.userInfo.userId;
+      req.email = decoded.userInfo.email;
+      console.log(req.email);
+      next();
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

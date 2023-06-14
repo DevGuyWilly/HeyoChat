@@ -69,8 +69,15 @@ export const SignUp = () => {
     for (let value in values) {
       formData.append(value, values[value]);
     }
+    for(let [key,value] of formData.entries()){
+      console.log(key,value)
+    }
     
-    console.log(formData)
+    const res = await axios.post("/auth/register", formData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log(res)
+
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

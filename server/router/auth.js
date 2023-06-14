@@ -1,13 +1,10 @@
-const authRouter = require("express").Router();
-const bodyParser = require("body-parser");
-const {
-  testing,
-  signUp,
-  signIn,
-  refresh,
-  logOut,
-} = require("../controllers/auth");
+import express from 'express'
 
+
+import  bodyParser from "body-parser";
+import {testing,signUp,signIn,refresh,logOut} from "../controllers/auth.js"
+
+const authRouter = express.Router();
 authRouter.use(bodyParser.urlencoded({ extended: true }));
 
 authRouter.post("/", testing);
@@ -16,4 +13,4 @@ authRouter.post("/login", signIn);
 authRouter.get("/refresh", refresh);
 authRouter.get("/logout", logOut);
 
-module.exports = authRouter;
+export default authRouter;

@@ -1,14 +1,16 @@
-const express = require("express");
-const session = require("express-session");
-const cors = require("cors");
-const authRoute = require("./router/auth");
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const dbConnect = require("./dbConnect");
-const morgan = require("morgan");
-const helmet = require("helmet");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+
+import express from "express"
+import session from "express-session";
+import cors from "cors"
+import authRoute from "./router/auth.js"
+import dotenv from 'dotenv'
+import dbConnect from "./dbConnect.js"
+
+import morgan from "morgan";
+import helmet from "helmet"
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+
 dotenv.config();
 
 const app = express();
@@ -42,7 +44,9 @@ app.use(
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials:true
   })
+  
 );
 
 // LOCAL MONGO-DB DATABASE CONNECTION;
