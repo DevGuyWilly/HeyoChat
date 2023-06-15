@@ -86,9 +86,8 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       if (!isMatch)
         return res.status(401).json({ err: "password does not match" });
 
-      const formattedUser = {
-        firstName: user.firstName,
-        lastName: user.lastName,
+      const formtUser = {
+        userId:user._id,
         email: user.email,
       };
 
@@ -103,9 +102,10 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       res.cookie("Jwt", refreshToken, {
         httpOnly: true,
         sameSite: "None",
+        secure:true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      return res.status(200).json({ formattedUser, accessToken });
+      return res.status(200).json({ formtUser, accessToken });
     } catch (err) {
       res.status(500).json({ err: err.message });
     }
@@ -119,10 +119,9 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       const refreshToken = Jwt;
       jwt.verify(refreshToken, refreshTokenSecret, async (err, decoded) => {
         try {
-          console.log(decoded);
+          
           if (err) return res.status(403).json({ message: "Forbidden" });
           const foundUser = await User.findOne({ _id: decoded.userId });
-          console.log(foundUser);
           if (!foundUser)
             return res.status(401).json({ message: "Unauthorized" });
 

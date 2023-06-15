@@ -1,5 +1,5 @@
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, setRef } from "@mui/material";
 
 import { ArrowForwardOutlined } from "@mui/icons-material";
 import FlexBetween from "../components/FlexBetween";
@@ -9,17 +9,17 @@ import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
 import {axios} from '../axios/axiosFetch'
-import { login } from "../state";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useState } from "react";
 import TextFieldInputComp from "../components/TextFieldInputComp";
 import TextFieldPasswordComponent from "../components/TextFieldPasswordComponent";
+import { setLogin } from "../state";
 
 export const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const users = useSelector((state) => state.user);
+  const {user} = useSelector((state) => state);
   const [email,setEmail]= useState("")
   const [password,setPassword]= useState("")
   // console.log(users);
@@ -34,7 +34,7 @@ export const SignIn = () => {
       googleAccessToken: googletoken,
     });
    
-    dispatch(login({ user: res.data }));
+    dispatch(setLogin({ user: res.data }));
     navigate("/chatPage");
   };
 
@@ -45,7 +45,12 @@ export const SignIn = () => {
   });
   const Login = async () => {
     const res= await axios.post("/auth/login",{email,password})
+    const data =res?.data
+    
+    dispatch(setLogin({ token: data.accessToken, user: data.formtUser }));
+    navigate("/chatPage");
   };
+  
   
   return (
     <div

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../state";
+import { setLogin } from "../state";
 import { Link } from "react-router-dom";
 import background from "../assets/Group550.png";
 import {
@@ -14,10 +14,12 @@ import {
   Button,
 } from "@mui/material";
 import { Search, MoreVert, Phone, VideoCall } from "@mui/icons-material";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 export const ChatPage = () => {
-  const [user, setUser] = useState(null);
-  const CurrUser = useSelector((state) => state.user);
+  // const [user, setUser] = useState(null);
+  const {token} = useSelector((state) => state);
+  const refresh = useRefreshToken()
 
   const logOut = () => {
     window.open("http://localhost:8000/auth/logout", "_self");
@@ -35,14 +37,16 @@ export const ChatPage = () => {
       },
     });
     const data = await response.data;
-    dispatch(login({ user: data.existingUser }));
+    dispatch(setLogin({ user: data.existingUser }));
   };
 
-  useEffect(() => {
-    setUser(CurrUser);
-  }, []);
+  
 
-  console.log(user);
+  // useEffect(() => {
+  //   setUser(CurrUser);
+  // }, []);
+
+  console.log(token);
 
   return (
     <div
@@ -174,7 +178,9 @@ export const ChatPage = () => {
           </Box>
         </Stack>
       </Paper>
+      <button onClick={refresh}>refresh</button>
     </div>
+    
   );
 };
 

@@ -7,7 +7,7 @@ import background from "../assets/Group550.png";
 import overlay from "../assets/card41@2x.png";
 import { useSelector, useDispatch } from "react-redux";
 import { axios } from "../axios/axiosFetch";
-import { login } from "../state";
+import { setLogin} from "../state";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import * as yup from "yup";
@@ -53,7 +53,7 @@ export const SignUp = () => {
     });
     console.log(res);
 
-    dispatch(login({ user: res.data }));
+    dispatch(setLogin({ user: res.data }));
     navigate("/chatPage");
   };
 
