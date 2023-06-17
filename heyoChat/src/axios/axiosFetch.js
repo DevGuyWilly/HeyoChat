@@ -9,7 +9,7 @@ export const axios = Axios.create({
 }) 
 
 
-export const axiosPrivate = axios.create({
+export const axiosPrivate = Axios.create({
   baseURL: BASE_URL,
   headers: { "Content-Type": "application/json" },
   withCredentials: true,

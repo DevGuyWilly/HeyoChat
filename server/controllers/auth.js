@@ -110,6 +110,8 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       res.status(500).json({ err: err.message });
     }
   }
+
+
   export const refresh= async (req, res) => {
     try {
       const { Jwt } = req.cookies;
@@ -141,6 +143,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       res.status(500).json({ err: err.message });
     }
   }
+
   export const logOut =async (req, res) => {
     try {
       res.redirect("http://localhost:5173");
@@ -148,6 +151,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       res.status(500).json({ err: err.message });
     }
   }
+  
   export const testing= (req, res) => {
     const { name } = req.body;
     console.log("fdkjf");
