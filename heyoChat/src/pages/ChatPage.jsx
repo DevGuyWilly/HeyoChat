@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { setLogin } from "../state";
 import { Link } from "react-router-dom";
 import background from "../assets/Group550.png";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Stack,
   Box,
@@ -15,38 +15,45 @@ import {
 } from "@mui/material";
 import { Search, MoreVert, Phone, VideoCall } from "@mui/icons-material";
 import useRefreshToken from "../hooks/useRefreshToken";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export const ChatPage = () => {
+  const naviagte = useNavigate();
+  const location = useLocation();
   // const [user, setUser] = useState(null);
-  const {token} = useSelector((state) => state);
-  const refresh = useRefreshToken()
+  const { user } = useSelector((state) => state);
+  const refresh = useRefreshToken();
+  const axiosPrivate = useAxiosPrivate();
 
-  const logOut = () => {
-    window.open("http://localhost:8000/auth/logout", "_self");
-    dispatch(logOut());
-  };
+  // const logOut = () => {
+  //   window.open("http://localhost:8000/auth/logout", "_self");
+  //   dispatch(logOut());
+  // };
 
-  const getUser = async () => {
-    const response = await axios.get("/user/", {
-      method: "GET",
-      credentials: "include",
-      withCredentials: true,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.data;
-    dispatch(setLogin({ user: data.existingUser }));
-  };
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const getUser = async () => {
+      try {
+        const response = await axiosPrivate.get(
+          "/auth/n",
+          { signal: controller.signal }
+        );
+        console.log(response);
+      } catch (err) {
+        console.log(err);
+        if (err.message !== "canceled") naviagte("/", { state: { from: location }, replace: true });
+      }
+    };
 
-  
+    getUser();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   setUser(CurrUser);
-  // }, []);
-
-  console.log(token);
+  console.log();
 
   return (
     <div
@@ -180,7 +187,6 @@ export const ChatPage = () => {
       </Paper>
       <button onClick={refresh}>refresh</button>
     </div>
-    
   );
 };
 

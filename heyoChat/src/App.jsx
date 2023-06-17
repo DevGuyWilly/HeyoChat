@@ -9,7 +9,7 @@ import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
 import { ChatPage } from "./pages/ChatPage";
 import { useSelector } from "react-redux";
-import { NextPage } from "./pages/nextpage";
+import { NextPage } from "./pages/Nextpage";
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
           <Route path="/signUp" element={<SignUp />} />
           <Route
             path="/chatPage"
-            element={isAuth ? <ChatPage /> : <Navigate to="/" />}
+            element={ <ChatPage /> }
           />
           <Route path="/nextpage" element={<NextPage />} />
         </Routes>

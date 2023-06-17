@@ -94,10 +94,10 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       const accessToken = jwt.sign(
         { userInfo: { userId: user._id, email: user.email } },
         accessTokenSecret,
-        { expiresIn: "15m" }
+        { expiresIn: "10s" }
       );
       const refreshToken = jwt.sign({ userId: user._id }, refreshTokenSecret, {
-        expiresIn: "10h",
+        expiresIn: "15s",
       });
       res.cookie("Jwt", refreshToken, {
         httpOnly: true,
@@ -131,7 +131,7 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
             { userInfo: { userId: foundUser._id, email: foundUser.email } },
             accessTokenSecret,
             {
-              expiresIn: "10m",
+              expiresIn: "10s",
             }
           );
           res.status(200).json({ accessToken });
@@ -151,10 +151,9 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
       res.status(500).json({ err: err.message });
     }
   }
-  
   export const testing= (req, res) => {
-    const { name } = req.body;
+    
     console.log("fdkjf");
-    res.status(200).json({ message: `its working ${name}` });
+    res.status(200).json({ message: `its working` });
   }
 
